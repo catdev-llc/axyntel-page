@@ -2,218 +2,218 @@ import type { Translations } from "./en";
 
 export const de: Translations = {
   meta: {
-    title: "Axyntel \u2014 Research Intelligence f\u00FCr B2B-Entscheidungen",
+    title: "Axyntel — Strukturierte Research-Reports für B2B-Entscheidungen",
     description:
-      "Strukturierte Rechercheberichte mit zitierten Quellen f\u00FCr Wettbewerbsstrategie, regulatorische Analyse und Deal Intelligence.",
+      "Quellenbasierte Intelligence-Reports für Wettbewerbsstrategie, Regulatorik und Investmententscheidungen. In Tagen statt Monaten.",
   },
   nav: {
     services: "Leistungen",
     process: "Ablauf",
     why: "Warum Axyntel",
-    cta: "Gespr\u00E4ch buchen",
+    cta: "Gespräch vereinbaren",
   },
   hero: {
-    badge: "Research Intelligence f\u00FCr B2B-Entscheidungen",
-    headline: "Recherche, die mit Ihren Entscheidungen Schritt h\u00E4lt.",
+    badge: "Strukturierte Research Intelligence für den DACH-Markt",
+    headline: "Fundierte Entscheidungen brauchen fundierte Recherche.",
     subheadline:
-      "Strukturierte, vollst\u00E4ndig zitierte Intelligence-Reports f\u00FCr Wettbewerbsstrategie, regulatorische Compliance und Investmententscheidungen. In Tagen geliefert, nicht Monaten.",
-    primaryCta: "Erstgespr\u00E4ch buchen",
-    secondaryCta: "Leistungen ansehen",
+      "Wir liefern strukturierte, quellenbasierte Intelligence-Reports für Wettbewerbsstrategie, Regulatorik und Investmententscheidungen. In Tagen, nicht Monaten.",
+    primaryCta: "Erstgespräch vereinbaren",
+    secondaryCta: "Leistungen im Detail",
   },
   trust: {
     items: [
       "Jede Aussage mit Quelle belegt",
-      "Lieferung in 2\u201310 Werktagen",
-      "Ab \u20AC750 pro Report",
-      "Board-ready Output",
+      "Lieferung in 2–10 Werktagen",
+      "Ab €750 pro Report",
+      "Direkt als Entscheidungsvorlage nutzbar",
     ],
   },
   problem: {
-    label: "Das Problem",
+    label: "Die Herausforderung",
     headline:
-      "Gute Recherche dauert zu lange. Schlechte Recherche kostet mehr.",
+      "Gründliche Recherche dauert zu lange. Oberflächliche kostet Sie mehr.",
     description:
-      "Ihr Team braucht Intelligence zum Handeln \u2014 aber die Optionen passen nicht.",
+      "Ihr Team braucht belastbare Informationen, um zu handeln — doch die verfügbaren Optionen passen nicht.",
     items: [
       {
-        title: "Tage gehen f\u00FCr Desk Research verloren",
+        title: "Tage verschwinden in der Eigenrecherche",
         description:
-          "Ihre Analysten verbringen Tage damit, Wettbewerbsdaten aus verstreuten Quellen zusammenzusetzen. Bis die Ergebnisse vorliegen, hat sich das Zeitfenster verschoben.",
+          "Ihre Analysten verbringen Tage damit, Wettbewerbsdaten aus verteilten Quellen zusammenzutragen. Bis das Ergebnis steht, ist das Zeitfenster für die Entscheidung bereits vorbei.",
       },
       {
-        title: "Informationen \u00FCberall verstreut",
+        title: "Informationen ohne roten Faden",
         description:
-          "Marktdaten, Regulierungen, Filings, Reports \u2014 verteilt \u00FCber PDFs, E-Mail-Threads und Browser-Tabs. Keine einheitliche Informationsquelle.",
+          "Marktdaten, Regulierungstexte, Filings, Studien — verstreut über PDFs, E-Mail-Verläufe und offene Browser-Tabs. Keine zentrale, verlässliche Informationsbasis.",
       },
       {
-        title: "Berater brauchen Wochen",
+        title: "Beratungshäuser brauchen Wochen",
         description:
-          "Traditionelle Beratungsfirmen liefern gr\u00FCndliche Arbeit \u2014 in 4 bis 8 Wochen, ab \u20AC10.000+. Wenn Sie dieses Quartal Antworten brauchen, passt dieser Zeitrahmen nicht.",
+          "Klassische Beratungsfirmen liefern solide Arbeit — in 4 bis 8 Wochen, ab €10.000 aufwärts. Wenn Sie noch dieses Quartal Ergebnisse brauchen, passt das nicht zusammen.",
       },
       {
-        title: "Keine Nachweiskette",
+        title: "Keine nachvollziehbare Quellenarbeit",
         description:
-          "Schnelle Zusammenfassungen liefern plausiblen Text. Sie brauchen nachvollziehbare Aussagen \u2014 jede Behauptung mit konkreter Quelle und Datum belegt.",
+          "Schnelle Zusammenfassungen liefern plausibel klingenden Text. Was Sie brauchen: nachvollziehbare Aussagen, bei denen jede Behauptung auf eine konkrete Quelle und ein Datum zurückführbar ist.",
       },
     ],
   },
   services: {
     label: "Unsere Leistungen",
-    headline: "Recherche, die bereit ist, wenn Sie es sind",
+    headline: "Reports, die stehen, wenn Sie sie brauchen",
     description:
-      "Sagen Sie uns, welche Entscheidung Sie treffen m\u00FCssen. Wir liefern einen strukturierten, zitierten Report, den Sie Ihrem Vorstand, Kunden oder Investmentkomitee vorlegen k\u00F6nnen.",
+      "Beschreiben Sie uns Ihre Entscheidungssituation. Wir liefern einen strukturierten, vollständig belegten Report — fertig als Vorstandsvorlage, Kundendeliverable oder Entscheidungsgrundlage für Ihr Investment Committee.",
     discussCta: "Leistung besprechen",
     deliverablesLabel: "Lieferumfang",
     items: [
       {
-        tag: "01 \u2014 WETTBEWERB",
-        title: "Wettbewerbs- & Marktanalyse",
+        tag: "01 — WETTBEWERB",
+        title: "Competitive & Market Intelligence",
         description:
-          "Verstehen Sie Ihren Markt besser als Ihre Konkurrenz sich selbst. Wir kartieren Akteure, Positionierung, Preisgestaltung und strategische Signale.",
+          "Verstehen Sie Ihren Markt besser, als Ihre Wettbewerber sich selbst verstehen. Wir analysieren Akteure, Positionierung, Preisstrukturen und strategische Signale — systematisch und quellenbasiert.",
         deliverables: [
-          "Wettbewerbs-Battlecards mit Positionierungsanalyse",
-          "Marktlandschafts-Reports \u2014 5 bis 15 Akteure kartiert",
-          "Markteintritts-Briefings mit Sizing und Trendanalyse",
-          "Monatlicher Retainer f\u00FCr laufende Wettbewerbs-Updates",
+          "Competitive Intelligence Briefings mit Positionierungsanalyse",
+          "Marktlandschafts-Reports — 5 bis 15 Akteure im Vergleich",
+          "Markteintrittsanalysen inkl. Sizing und Trendeinordnung",
+          "Monatlicher Retainer für laufende Competitive Updates",
         ],
-        price: "Ab \u20AC750 / Report",
-        turnaround: "48h \u2013 7 Tage",
+        price: "Ab €750 / Report",
+        turnaround: "48h – 7 Tage",
       },
       {
-        tag: "02 \u2014 COMPLIANCE",
-        title: "Regulatorische & Policy-Recherche",
+        tag: "02 — REGULATORIK",
+        title: "Regulatory & Compliance Research",
         description:
-          "Navigieren Sie DORA, NIS2, AI Act und komplexe regulatorische Rahmenwerke. Tiefenanalyse aus Prim\u00E4rquellen \u2014 White-Label-f\u00E4hig f\u00FCr Beratungsfirmen.",
+          "Klarheit über DORA, NIS2, AI Act und komplexe regulatorische Anforderungen. Tiefenanalyse aus Primärquellen — auch als White-Label-Deliverable für Ihre Beratungsmandate.",
         deliverables: [
-          "Regulierungs-Deep-Dives mit Pflichten-Mapping",
-          "Framework-\u00FCbergreifende Analyse (DORA vs. NIS2 etc.)",
-          "Kundenfertige White-Label-Recherchepakete",
-          "Recherche-Retainer f\u00FCr Beratungspraxen",
+          "Regulatorische Tiefenanalysen mit Pflichtenmapping",
+          "Framework-übergreifende Vergleiche (DORA vs. NIS2 etc.)",
+          "Mandantenfertige White-Label-Research-Pakete",
+          "Research-Retainer für Compliance-Beratungen",
         ],
-        price: "Ab \u20AC2.000 / Report",
-        turnaround: "5 \u2013 10 Tage",
+        price: "Ab €2.000 / Report",
+        turnaround: "5 – 10 Tage",
       },
       {
-        tag: "03 \u2014 DUE DILIGENCE",
-        title: "Investment- & Deal-Recherche",
+        tag: "03 — DUE DILIGENCE",
+        title: "Investment & Deal Research",
         description:
-          "Marktintelligenz f\u00FCr PE-, VC- und M&A-Teams, die nicht wochenlang warten k\u00F6nnen. Target Screening, Thesen-Validierung und kommerzielle Due Diligence.",
+          "Markt- und Wettbewerbsintelligenz für PE-, VC- und M&A-Teams, die nicht wochenlang warten können. Target Screening, Thesen-Validierung und Commercial Due Diligence — strukturiert und belegbar.",
         deliverables: [
-          "Zielunternehmen-Recherche-Dossiers",
-          "Sektorthesen- & Marktsizing-Recherche",
-          "Kommerzielle DD mit Wettbewerbsvorteil-Analyse",
-          "Laufende Deal-Flow-Recherche-Unterst\u00FCtzung",
+          "Research-Dossiers zu Zielunternehmen",
+          "Sektorthesen- und Marktsizing-Analysen",
+          "Commercial Due Diligence mit Wettbewerbsanalyse",
+          "Laufende Research-Unterstützung im Deal Flow",
         ],
-        price: "Ab \u20AC3.000 / Dossier",
-        turnaround: "5 \u2013 15 Tage",
+        price: "Ab €3.000 / Dossier",
+        turnaround: "5 – 15 Tage",
       },
     ],
   },
   process: {
-    label: "So funktioniert\u2019s",
-    headline: "Vom Briefing zum Board-fertigen Report",
+    label: "So arbeiten wir",
+    headline: "Vom Briefing zur fertigen Entscheidungsvorlage",
     steps: [
       {
         number: "01",
-        title: "Briefing teilen",
+        title: "Briefing",
         description:
-          "Sagen Sie uns, welche Entscheidung Sie treffen m\u00F6chten. Wir definieren den Umfang, kl\u00E4ren Deliverables und vereinbaren einen Zeitplan.",
+          "Sie beschreiben uns die Entscheidung, die ansteht. Wir definieren Scope, klären den Lieferumfang und vereinbaren einen verbindlichen Zeitplan.",
       },
       {
         number: "02",
-        title: "Wir recherchieren",
+        title: "Recherche",
         description:
-          "Unser Research-Team arbeitet parallel \u00FCber mehrere Quellen \u2014 \u00F6ffentliche Daten, Branchendatenbanken, regulatorische Filings und Ihre Dokumente.",
+          "Unser Research-Team arbeitet parallel über mehrere Quellentypen — öffentlich zugängliche Daten, Branchendatenbanken, regulatorische Dokumente und von Ihnen bereitgestellte Unterlagen.",
       },
       {
         number: "03",
-        title: "Pr\u00FCfen & strukturieren",
+        title: "Prüfung & Strukturierung",
         description:
-          "Jedes Ergebnis wird auf L\u00FCcken, Widerspr\u00FCche und unbelegte Aussagen gepr\u00FCft. Quellen werden zitiert. Annahmen werden gekennzeichnet.",
+          "Jedes Ergebnis wird auf Lücken, Widersprüche und unbelegte Aussagen geprüft. Alle Quellen werden zitiert. Annahmen werden transparent gekennzeichnet.",
       },
       {
         number: "04",
-        title: "Liefern",
+        title: "Lieferung",
         description:
-          "Sie erhalten einen strukturierten, zitierten Report \u2014 fertig f\u00FCr Ihr Board Deck, Ihre Kundenpr\u00E4sentation oder Ihr Investmentkomitee.",
+          "Sie erhalten einen strukturierten, vollständig belegten Report — direkt nutzbar als Vorstandsvorlage, Kundenpräsentation oder Basis für Ihr Investment Committee.",
       },
     ],
   },
   compare: {
     label: "Warum Axyntel",
-    headline: "Beratungstiefe. Startup-Geschwindigkeit.",
+    headline: "Beratungstiefe. Umsetzungsgeschwindigkeit.",
     description:
-      "Sie sollten nicht zwischen gr\u00FCndlich und schnell w\u00E4hlen m\u00FCssen.",
-    featureCol: "Merkmal",
-    traditional: "Traditioneller Ansatz",
+      "Gründlich oder schnell? Bei uns müssen Sie sich nicht entscheiden.",
+    featureCol: "Kriterium",
+    traditional: "Klassischer Ansatz",
     axyntelCol: "Axyntel",
     rows: [
       {
-        feature: "Durchlaufzeit",
-        traditional: "4\u20138 Wochen",
-        axyntel: "2\u201310 Werktage",
+        feature: "Lieferzeit",
+        traditional: "4–8 Wochen",
+        axyntel: "2–10 Werktage",
       },
       {
-        feature: "Quellen",
-        traditional: "Nicht zitiert oder einseitig",
+        feature: "Quellenarbeit",
+        traditional: "Nicht zitiert oder selektiv",
         axyntel: "Jede Aussage mit Quelle und Datum belegt",
       },
       {
         feature: "Konsistenz",
-        traditional: "H\u00E4ngt davon ab, wer die Arbeit macht",
-        axyntel: "Strukturierte Methodik, wiederholbare Qualit\u00E4t",
+        traditional: "Abhängig vom jeweiligen Berater",
+        axyntel: "Strukturierte Methodik, reproduzierbare Qualität",
       },
       {
         feature: "Kosten",
-        traditional: "\u20AC10.000\u201350.000+ pro Auftrag",
-        axyntel: "Ab \u20AC750 pro Report",
+        traditional: "€10.000–50.000+ pro Mandat",
+        axyntel: "Ab €750 pro Report",
       },
       {
-        feature: "Tiefe",
-        traditional: "Schnelle Zusammenfassungen verpassen das Wesentliche",
-        axyntel: "Multi-Source-Synthese \u00FCber Dutzende Inputs",
+        feature: "Analysetiefe",
+        traditional: "Oberflächliche Zusammenfassungen übersehen Wesentliches",
+        axyntel: "Quellenübergreifende Synthese aus Dutzenden Inputs",
       },
       {
-        feature: "Pr\u00E4sentation",
+        feature: "Aufbereitung",
         traditional: "Rohe Notizen oder unstrukturierte E-Mails",
-        axyntel: "Formatierte Reports f\u00FCr Entscheidungstr\u00E4ger",
+        axyntel: "Fertig formatierte Reports für Entscheidungsträger",
       },
     ],
   },
   audience: {
-    label: "Entwickelt f\u00FCr",
-    headline: "Teams, die Recherche brauchen, der sie vertrauen k\u00F6nnen",
+    label: "Für wen wir arbeiten",
+    headline: "Teams, die Research brauchen, auf die sie sich verlassen können",
     items: [
       {
         icon: "target",
-        title: "Product Marketing",
+        title: "Product Marketing & Strategie",
         description:
-          "Wettbewerbs-Battlecards und Marktlandschaften f\u00FCr Positionierung, Messaging und Go-to-Market-Strategie.",
+          "Competitive Intelligence Briefings und Marktlandschaftsanalysen für Positionierung, Messaging und Go-to-Market-Strategie.",
       },
       {
         icon: "shield",
         title: "GRC & Compliance-Beratung",
         description:
-          "White-Label regulatorische Recherche f\u00FCr Beratungen, die Kunden unter DORA, NIS2, AI Act und ISO-Frameworks betreuen.",
+          "White-Label Regulatory Research für Beratungshäuser, die Mandanten bei DORA, NIS2, AI Act und ISO-Frameworks begleiten.",
       },
       {
         icon: "briefcase",
         title: "Private Equity & M&A",
         description:
-          "Deal-Recherche-Dossiers, Thesen-Validierung und kommerzielle Due Diligence f\u00FCr Investmentteams.",
+          "Research-Dossiers, Thesen-Validierung und Commercial Due Diligence für Investmentteams mit engen Timelines.",
       },
     ],
   },
   cta: {
-    headline: "Eine Entscheidung zu treffen?",
+    headline: "Steht eine Entscheidung an?",
     description:
-      "Sagen Sie uns, was Sie herausfinden m\u00F6chten. Wir zeigen Ihnen genau, wie ein strukturierter, quellenbasierter Research-Output f\u00FCr Ihre konkrete Situation aussieht.",
-    primaryCta: "15-Minuten-Gespr\u00E4ch buchen",
+      "Beschreiben Sie uns Ihre Fragestellung. Wir zeigen Ihnen konkret, wie ein strukturierter, quellenbasierter Report für Ihre Situation aussieht.",
+    primaryCta: "Kurzes Gespräch vereinbaren",
     secondaryCta: "hello@axyntel.com",
     below: "oder schreiben Sie uns direkt an",
   },
   footer: {
-    copyright: "\u00A9 2026 Axyntel. Alle Rechte vorbehalten.",
+    copyright: "© 2026 Axyntel. Alle Rechte vorbehalten.",
     contact: "Kontakt",
     linkedin: "LinkedIn",
   },
