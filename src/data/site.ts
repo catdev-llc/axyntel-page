@@ -148,23 +148,3 @@ export const comparisonRows = [
   },
 ];
 
-export const testimonials = [
-  {
-    quote:
-      "Axyntel delivered a competitive landscape that would have taken our team two weeks \u2014 in 48 hours. Every claim was sourced.",
-    author: "Head of Product Marketing",
-    company: "B2B SaaS",
-  },
-  {
-    quote:
-      "We use Axyntel as our research back-office. Our clients get white-label reports faster, and we keep our margins.",
-    author: "Managing Partner",
-    company: "GRC Advisory",
-  },
-  {
-    quote:
-      "The deal research dossier flagged competitive risks our internal team missed. Worth every cent.",
-    author: "Principal",
-    company: "Mid-Market PE",
-  },
-];

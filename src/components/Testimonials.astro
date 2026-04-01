@@ -1,7 +1,6 @@
 ---
 import Container from "@ui/Container.astro";
 import SectionHeading from "@ui/SectionHeading.astro";
-import { testimonials } from "@data/site";
 ---
 
 <section class="relative py-20 sm:py-28">
@@ -9,22 +8,50 @@ import { testimonials } from "@data/site";
 
   <Container>
     <div class="reveal">
-      <SectionHeading label="Trusted By" title="What our clients say" />
+      <SectionHeading
+        label="Built For"
+        title="Teams that need research they can trust"
+      />
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {testimonials.map((t) => (
-        <div class="reveal rounded-xl border border-slate-custom bg-navy p-6 sm:p-8">
-          <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-8 w-8 text-electric/30" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-          </svg>
-          <blockquote class="text-sm leading-relaxed text-silver">
-            "{t.quote}"
-          </blockquote>
-          <div class="mt-6 border-t border-slate-custom pt-4">
-            <p class="text-sm font-medium text-snow">{t.author}</p>
-            <p class="text-xs text-steel">{t.company}</p>
+      {[
+        {
+          icon: "target",
+          title: "Product Marketing",
+          description: "Competitive battlecards and market landscapes for positioning, messaging, and go-to-market strategy.",
+        },
+        {
+          icon: "shield",
+          title: "GRC & Compliance Advisory",
+          description: "White-label regulatory research for consultancies serving clients under DORA, NIS2, AI Act, and ISO frameworks.",
+        },
+        {
+          icon: "briefcase",
+          title: "Private Equity & M&A",
+          description: "Deal research dossiers, thesis validation, and commercial due diligence for investment teams.",
+        },
+      ].map((item) => (
+        <div class="reveal rounded-xl border border-slate-custom bg-navy p-6 sm:p-8 transition-all duration-300 hover:border-electric/30">
+          <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-lg bg-electric/10">
+            {item.icon === "target" && (
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-electric" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
+              </svg>
+            )}
+            {item.icon === "shield" && (
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-electric" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            )}
+            {item.icon === "briefcase" && (
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-electric" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+              </svg>
+            )}
           </div>
+          <h3 class="font-serif text-xl font-semibold text-snow">{item.title}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-steel">{item.description}</p>
         </div>
       ))}
     </div>
