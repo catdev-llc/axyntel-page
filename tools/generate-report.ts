@@ -14,6 +14,7 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import MarkdownIt from "markdown-it";
 import puppeteer from "puppeteer";
+import { PDFDocument } from "pdf-lib";
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -159,14 +160,10 @@ function buildTocHtml(): string {
 }
 
 // ---------------------------------------------------------------------------
-// Full HTML document
+// Shared CSS
 // ---------------------------------------------------------------------------
 
-const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<style>
+const sharedCss = `
 /* ===== Reset ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -179,91 +176,13 @@ body {
   color: ${brand.body};
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
-}
+}`;
 
-/* ===== Title Page ===== */
-.title-page {
-  width: 100%;
-  height: 100vh;
-  background: ${brand.midnight};
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 60px 80px;
-  page-break-after: always;
-}
-.title-brand {
-  font-size: 18pt;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: ${brand.blue};
-  text-transform: lowercase;
-  margin-bottom: 48px;
-}
-.title-accent {
-  width: 64px;
-  height: 3px;
-  background: ${brand.blue};
-  margin: 0 auto 48px auto;
-  border-radius: 2px;
-}
-.title-text {
-  font-size: 28pt;
-  font-weight: 700;
-  color: ${brand.snow};
-  line-height: 1.25;
-  max-width: 600px;
-  margin-bottom: 48px;
-}
-.title-meta {
-  color: ${brand.steel};
-  font-size: 10pt;
-  line-height: 1.8;
-}
-.title-meta .date { color: ${brand.snow}; font-weight: 500; }
-.title-meta .conf { color: ${brand.steel}; font-style: italic; margin-top: 4px; }
+// ---------------------------------------------------------------------------
+// CSS for content pages (headings, lists, tables, etc.)
+// ---------------------------------------------------------------------------
 
-/* ===== TOC Page ===== */
-.toc-page {
-  padding: 72px 72px 60px;
-  page-break-after: always;
-}
-.toc-title {
-  font-size: 20pt;
-  color: ${brand.heading};
-  margin-bottom: 32px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid ${brand.blue};
-}
-.toc-list {
-  list-style: none;
-  padding: 0;
-}
-.toc-list li {
-  margin-bottom: 6px;
-}
-.toc-list li a {
-  color: ${brand.body};
-  text-decoration: none;
-  font-size: 10.5pt;
-}
-.toc-list li a:hover { color: ${brand.blue}; }
-.toc-h1 a { font-weight: 600; font-size: 11pt; }
-.toc-h2 { padding-left: 24px; }
-.toc-h2 a { color: ${brand.steel}; }
-
-/* ===== Content ===== */
-.content {
-  padding: 60px 72px;
-}
-
-.page-break {
-  page-break-before: always;
-  height: 0;
-}
-
+const contentCss = `
 /* Headings */
 h1 {
   font-size: 22pt;
@@ -327,11 +246,7 @@ pre {
   font-size: 9pt;
   line-height: 1.55;
 }
-pre code {
-  background: none;
-  padding: 0;
-  border-radius: 0;
-}
+pre code { background: none; padding: 0; border-radius: 0; }
 
 /* Blockquotes */
 blockquote {
@@ -345,12 +260,7 @@ blockquote {
 blockquote p { margin: 0; }
 
 /* Tables */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 0 18px 0;
-  font-size: 9.5pt;
-}
+table { width: 100%; border-collapse: collapse; margin: 0 0 18px 0; font-size: 9.5pt; }
 thead th {
   background: ${brand.midnight};
   color: ${brand.snow};
@@ -360,52 +270,21 @@ thead th {
 }
 thead th:first-child { border-radius: 4px 0 0 0; }
 thead th:last-child { border-radius: 0 4px 0 0; }
-tbody td {
-  padding: 7px 12px;
-  border-bottom: 1px solid #E2E8F0;
-}
+tbody td { padding: 7px 12px; border-bottom: 1px solid #E2E8F0; }
 tbody tr:nth-child(even) { background: #F8FAFC; }
 
 /* Horizontal rules */
-hr {
-  border: none;
-  height: 2px;
-  background: ${brand.blue};
-  margin: 28px 0;
-  opacity: 0.3;
-}
+hr { border: none; height: 2px; background: ${brand.blue}; margin: 28px 0; opacity: 0.3; }
 
 /* Images */
-img {
-  max-width: 100%;
-  border-radius: 4px;
-  margin: 8px 0;
-}
-</style>
-</head>
-<body>
+img { max-width: 100%; border-radius: 4px; margin: 8px 0; }
 
-<!-- Title Page -->
-<div class="title-page">
-  <div class="title-brand">axyntel.</div>
-  <div class="title-accent"></div>
-  <div class="title-text">${escapeHtml(reportTitle)}</div>
-  <div class="title-meta">
-    <p class="date">${reportDate}</p>
-    <p class="conf">Confidential</p>
-  </div>
-</div>
+.page-break { page-break-before: always; height: 0; }
+`;
 
-<!-- Table of Contents -->
-${buildTocHtml()}
-
-<!-- Content -->
-<div class="content">
-${bodyHtml}
-</div>
-
-</body>
-</html>`;
+// ---------------------------------------------------------------------------
+// HTML documents (two separate docs for separate PDF generation)
+// ---------------------------------------------------------------------------
 
 function escapeHtml(text: string): string {
   return text
@@ -415,8 +294,88 @@ function escapeHtml(text: string): string {
     .replace(/"/g, "&quot;");
 }
 
+// Part 1: Title page + TOC (no header/footer)
+const frontHtml = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" />
+<style>
+${sharedCss}
+.title-page {
+  width: 100%; height: 100vh;
+  background: ${brand.midnight};
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 60px 80px;
+}
+.title-brand { font-size: 18pt; font-weight: 700; letter-spacing: 3px; color: ${brand.blue}; text-transform: lowercase; margin-bottom: 48px; }
+.title-accent { width: 64px; height: 3px; background: ${brand.blue}; margin: 0 auto 48px auto; border-radius: 2px; }
+.title-text { font-size: 28pt; font-weight: 700; color: ${brand.snow}; line-height: 1.25; max-width: 600px; margin-bottom: 48px; }
+.title-meta { color: ${brand.steel}; font-size: 10pt; line-height: 1.8; }
+.title-meta .date { color: ${brand.snow}; font-weight: 500; }
+.title-meta .conf { color: ${brand.steel}; font-style: italic; margin-top: 4px; }
+
+.toc-page { padding: 60px 72px; }
+.toc-title { font-size: 20pt; color: ${brand.heading}; margin-bottom: 32px; padding-bottom: 12px; border-bottom: 2px solid ${brand.blue}; }
+.toc-list { list-style: none; padding: 0; }
+.toc-list li { margin-bottom: 6px; }
+.toc-list li a { color: ${brand.body}; text-decoration: none; font-size: 10.5pt; }
+.toc-h1 a { font-weight: 600; font-size: 11pt; }
+.toc-h2 { padding-left: 24px; }
+.toc-h2 a { color: ${brand.steel}; }
+</style>
+</head>
+<body>
+<div class="title-page">
+  <div class="title-brand">axyntel.</div>
+  <div class="title-accent"></div>
+  <div class="title-text">${escapeHtml(reportTitle)}</div>
+  <div class="title-meta">
+    <p class="date">${reportDate}</p>
+    <p class="conf">Confidential</p>
+  </div>
+</div>
+<div style="page-break-before: always;"></div>
+${buildTocHtml()}
+</body>
+</html>`;
+
+// Part 2: Content pages (with header/footer)
+const contentHtml = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" />
+<style>
+${sharedCss}
+${contentCss}
+.content { padding: 0; }
+
+/* CSS-based running header & footer (works reliably in print) */
+@page {
+  margin: 2.5cm 2cm;
+
+  @top-left {
+    content: "Axyntel · Confidential";
+    font-size: 7.5pt;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #94a3b8;
+  }
+
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 7.5pt;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #94a3b8;
+  }
+}
+</style>
+</head>
+<body>
+<div class="content">
+${bodyHtml}
+</div>
+</body>
+</html>`;
+
 // ---------------------------------------------------------------------------
-// PDF generation
+// PDF generation — two passes, then merge
 // ---------------------------------------------------------------------------
 
 async function generatePdf() {
@@ -429,37 +388,43 @@ async function generatePdf() {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
-  const page = await browser.newPage();
-  await page.setContent(html, { waitUntil: "domcontentloaded" });
-
-  await page.pdf({
-    path: outputPath,
+  // --- Pass 1: Title page + TOC (no header/footer) ---
+  const page1 = await browser.newPage();
+  await page1.setContent(frontHtml, { waitUntil: "domcontentloaded" });
+  const frontPdfBytes = await page1.pdf({
     format: "A4",
     printBackground: true,
-    displayHeaderFooter: true,
-    headerTemplate: `
-      <div style="width:100%; font-size:7pt; font-family:Helvetica,Arial,sans-serif; color:${brand.steel}; padding:8px 48px 0; text-align:right;">
-        <span class="pageNumber"></span>
-      </div>
-    `,
-    footerTemplate: `
-      <div style="width:100%; font-size:7pt; font-family:Helvetica,Arial,sans-serif; color:${brand.steel}; padding:0 48px 8px; display:flex; justify-content:space-between;">
-        <span>Axyntel | Confidential</span>
-        <span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span>
-      </div>
-    `,
-    margin: {
-      top: "40px",
-      bottom: "48px",
-      left: "0",
-      right: "0",
-    },
+    displayHeaderFooter: false,
+    margin: { top: "0", bottom: "0", left: "0", right: "0" },
+  });
+
+  // --- Pass 2: Content pages (with header/footer, page numbers from 1) ---
+  const page2 = await browser.newPage();
+  await page2.setContent(contentHtml, { waitUntil: "domcontentloaded" });
+  const contentPdfBytes = await page2.pdf({
+    format: "A4",
+    printBackground: true,
+    displayHeaderFooter: false,
+    margin: { top: "2.5cm", bottom: "2.5cm", left: "2cm", right: "2cm" },
   });
 
   await browser.close();
 
-  const stat = fs.statSync(outputPath);
-  const sizeKb = (stat.size / 1024).toFixed(0);
+  // --- Merge PDFs ---
+  const merged = await PDFDocument.create();
+
+  const frontDoc = await PDFDocument.load(frontPdfBytes);
+  const frontPages = await merged.copyPages(frontDoc, frontDoc.getPageIndices());
+  for (const p of frontPages) merged.addPage(p);
+
+  const contentDoc = await PDFDocument.load(contentPdfBytes);
+  const contentPages = await merged.copyPages(contentDoc, contentDoc.getPageIndices());
+  for (const p of contentPages) merged.addPage(p);
+
+  const mergedBytes = await merged.save();
+  fs.writeFileSync(outputPath, mergedBytes);
+
+  const sizeKb = (mergedBytes.length / 1024).toFixed(0);
   console.log(`Output:   ${outputPath} (${sizeKb} KB)`);
   console.log("Done.");
 }
