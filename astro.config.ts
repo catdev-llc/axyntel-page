@@ -3,7 +3,8 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://axyntel.com",
+  site: "https://catdev-llc.github.io",
+  base: "/axyntel-page",
   output: "static",
   integrations: [sitemap()],
   vite: {
