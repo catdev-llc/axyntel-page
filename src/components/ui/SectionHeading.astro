@@ -1,0 +1,22 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  description?: string;
+  class?: string;
+}
+
+const { label, title, description, class: className = "" } = Astro.props;
+---
+
+<div class:list={["mx-auto max-w-2xl text-center", className]}>
+  <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-electric">
+    {label}
+  </p>
+  <h2 class="font-serif text-3xl font-semibold text-snow sm:text-4xl lg:text-5xl leading-tight">
+    {title}
+  </h2>
+  {description && (
+    <p class="mt-5 text-lg text-steel leading-relaxed">{description}</p>
+  )}
+</div>

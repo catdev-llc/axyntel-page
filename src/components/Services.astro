@@ -1,0 +1,76 @@
+---
+import Container from "@ui/Container.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Button from "@ui/Button.astro";
+import { services, siteConfig } from "@data/site";
+---
+
+<section id="services" class="py-20 sm:py-28">
+  <Container>
+    <div class="reveal">
+      <SectionHeading
+        label="What We Deliver"
+        title="Research that's ready when you are"
+        description="Tell us the decision you need to make. We deliver a structured, cited report you can hand to your board, your client, or your investment committee."
+      />
+    </div>
+
+    <div class="mt-16 flex flex-col gap-8">
+      {services.map((service) => (
+        <div class="reveal group rounded-xl border border-slate-custom bg-navy p-6 transition-all duration-300 hover:border-electric/30 sm:p-8 lg:p-10">
+          <div class="flex flex-col gap-8 lg:flex-row lg:gap-12">
+            <!-- Left column -->
+            <div class="lg:w-1/2">
+              <p class="text-xs font-semibold uppercase tracking-[0.15em] text-electric">
+                {service.tag}
+              </p>
+              <h3 class="mt-3 font-serif text-2xl font-semibold text-snow sm:text-3xl">
+                {service.title}
+              </h3>
+              <p class="mt-4 leading-relaxed text-steel">
+                {service.description}
+              </p>
+
+              <div class="mt-6 flex flex-wrap gap-4">
+                <div class="flex items-center gap-2 rounded-lg bg-midnight px-4 py-2 text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-electric" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="text-silver">{service.price}</span>
+                </div>
+                <div class="flex items-center gap-2 rounded-lg bg-midnight px-4 py-2 text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-electric" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="text-silver">{service.turnaround}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right column: deliverables -->
+            <div class="lg:w-1/2">
+              <p class="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-steel">
+                Deliverables
+              </p>
+              <ul class="space-y-3">
+                {service.deliverables.map((item) => (
+                  <li class="flex items-start gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-4 w-4 shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-silver">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-6">
+                <Button href={siteConfig.bookingUrl} variant="secondary" size="sm">
+                  Discuss this service
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>

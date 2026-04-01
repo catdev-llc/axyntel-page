@@ -1,0 +1,105 @@
+---
+import Container from "@ui/Container.astro";
+import Button from "@ui/Button.astro";
+import { navLinks, siteConfig } from "@data/site";
+---
+
+<header
+  id="nav"
+  class="fixed top-0 z-50 w-full transition-all duration-300"
+>
+  <Container>
+    <nav class="flex items-center justify-between py-4">
+      <!-- Logo -->
+      <a href="/" class="text-xl font-serif font-semibold text-snow">
+        axyntel<span class="text-electric">.</span>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden items-center gap-8 md:flex">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm text-steel transition-colors hover:text-snow"
+          >
+            {link.label}
+          </a>
+        ))}
+        <Button href={siteConfig.bookingUrl} size="sm">
+          Book a Call
+        </Button>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button
+        id="menu-toggle"
+        class="flex flex-col gap-1.5 md:hidden"
+        aria-label="Toggle menu"
+        type="button"
+      >
+        <span class="hamburger-line block h-0.5 w-6 bg-silver transition-all duration-300"></span>
+        <span class="hamburger-line block h-0.5 w-6 bg-silver transition-all duration-300"></span>
+        <span class="hamburger-line block h-0.5 w-6 bg-silver transition-all duration-300"></span>
+      </button>
+    </nav>
+  </Container>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-slate-custom bg-midnight/95 backdrop-blur-lg md:hidden"
+  >
+    <Container>
+      <div class="flex flex-col gap-4 py-6">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-link text-base text-steel transition-colors hover:text-snow"
+          >
+            {link.label}
+          </a>
+        ))}
+        <Button href={siteConfig.bookingUrl} size="sm" class="mt-2 w-full text-center">
+          Book a Call
+        </Button>
+      </div>
+    </Container>
+  </div>
+</header>
+
+<script>
+  const nav = document.getElementById("nav")!;
+  const toggle = document.getElementById("menu-toggle")!;
+  const menu = document.getElementById("mobile-menu")!;
+  const lines = toggle.querySelectorAll(".hamburger-line");
+  const mobileLinks = menu.querySelectorAll(".mobile-link");
+
+  let open = false;
+
+  function setMenu(state: boolean) {
+    open = state;
+    menu.classList.toggle("hidden", !open);
+    if (open) {
+      lines[0].classList.add("translate-y-[4px]", "rotate-45");
+      lines[1].classList.add("opacity-0");
+      lines[2].classList.add("-translate-y-[4px]", "-rotate-45");
+    } else {
+      lines[0].classList.remove("translate-y-[4px]", "rotate-45");
+      lines[1].classList.remove("opacity-0");
+      lines[2].classList.remove("-translate-y-[4px]", "-rotate-45");
+    }
+  }
+
+  toggle.addEventListener("click", () => setMenu(!open));
+  mobileLinks.forEach((link) =>
+    link.addEventListener("click", () => setMenu(false))
+  );
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      nav.classList.add("bg-midnight/90", "backdrop-blur-lg", "shadow-lg", "shadow-midnight/50");
+    } else {
+      nav.classList.remove("bg-midnight/90", "backdrop-blur-lg", "shadow-lg", "shadow-midnight/50");
+    }
+  });
+</script>

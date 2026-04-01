@@ -1,0 +1,36 @@
+---
+import Container from "@ui/Container.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import { steps } from "@data/site";
+---
+
+<section id="process" class="relative py-20 sm:py-28">
+  <!-- Subtle background -->
+  <div class="absolute inset-0 -z-10 bg-navy/30"></div>
+
+  <Container>
+    <div class="reveal">
+      <SectionHeading
+        label="How It Works"
+        title="From brief to boardroom-ready report"
+      />
+    </div>
+
+    <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {steps.map((step, i) => (
+        <div class="reveal group relative">
+          {/* Connector line (desktop only) */}
+          {i < steps.length - 1 && (
+            <div class="absolute right-0 top-8 hidden h-px w-8 translate-x-full bg-slate-custom lg:block"></div>
+          )}
+
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-slate-custom bg-midnight text-xl font-serif font-semibold text-electric transition-colors group-hover:border-electric/50 group-hover:bg-electric/5">
+            {step.number}
+          </div>
+          <h3 class="text-lg font-semibold text-snow">{step.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-steel">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>

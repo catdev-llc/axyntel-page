@@ -1,0 +1,41 @@
+---
+import Container from "@ui/Container.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Card from "@ui/Card.astro";
+import { painPoints } from "@data/site";
+
+const icons = [
+  // Clock
+  `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg>`,
+  // Layers
+  `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>`,
+  // Hourglass
+  `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+  // Shield off
+  `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+];
+---
+
+<section class="py-20 sm:py-28">
+  <Container>
+    <div class="reveal">
+      <SectionHeading
+        label="The Problem"
+        title="Good research takes too long. Bad research costs more."
+        description="Your team needs intelligence to act — but the options are all wrong."
+      />
+    </div>
+
+    <div class="mt-14 grid gap-6 sm:grid-cols-2">
+      {painPoints.map((point, i) => (
+        <Card class="reveal group hover:border-danger/30 transition-colors duration-300">
+          <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-danger/10 text-danger">
+            <Fragment set:html={icons[i]} />
+          </div>
+          <h3 class="text-lg font-semibold text-snow">{point.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-steel">{point.description}</p>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>

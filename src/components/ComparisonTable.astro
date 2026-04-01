@@ -1,0 +1,87 @@
+---
+import Container from "@ui/Container.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import { comparisonRows } from "@data/site";
+---
+
+<section id="why" class="py-20 sm:py-28">
+  <Container>
+    <div class="reveal">
+      <SectionHeading
+        label="Why Axyntel"
+        title="Consulting depth. Startup speed."
+        description="You shouldn't have to choose between thorough and fast."
+      />
+    </div>
+
+    <!-- Desktop table -->
+    <div class="reveal mt-14 hidden overflow-hidden rounded-xl border border-slate-custom md:block">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-slate-custom bg-navy">
+            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-steel">
+              Feature
+            </th>
+            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-steel">
+              Traditional Approach
+            </th>
+            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-electric">
+              Axyntel
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {comparisonRows.map((row, i) => (
+            <tr class:list={[
+              "border-b border-slate-custom/50 transition-colors hover:bg-navy/50",
+              i === comparisonRows.length - 1 && "border-b-0",
+            ]}>
+              <td class="px-6 py-4 text-sm font-medium text-snow">{row.feature}</td>
+              <td class="px-6 py-4 text-sm text-steel">
+                <span class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  {row.traditional}
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-silver">
+                <span class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {row.axyntel}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile cards -->
+    <div class="reveal mt-14 flex flex-col gap-4 md:hidden">
+      {comparisonRows.map((row) => (
+        <div class="rounded-xl border border-slate-custom bg-navy p-5">
+          <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-steel">
+            {row.feature}
+          </p>
+          <div class="space-y-2">
+            <div class="flex items-start gap-2 text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-4 w-4 shrink-0 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <span class="text-steel">{row.traditional}</span>
+            </div>
+            <div class="flex items-start gap-2 text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-4 w-4 shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-silver">{row.axyntel}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>
