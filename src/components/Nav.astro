@@ -1,7 +1,27 @@
 ---
 import Container from "@ui/Container.astro";
 import Button from "@ui/Button.astro";
-import { navLinks, siteConfig } from "@data/site";
+import type { Translations, Locale } from "@data/i18n";
+import { getLocalePath } from "@data/i18n";
+
+interface Props {
+  content: Translations["nav"];
+  locale: Locale;
+  bookingUrl: string;
+}
+
+const { content, locale, bookingUrl } = Astro.props;
+
+const altLocale = locale === "en" ? "de" : "en";
+const altLocaleLabel = locale === "en" ? "DE" : "EN";
+const altLocalePath = getLocalePath(altLocale);
+const homePath = getLocalePath(locale);
+
+const navLinks = [
+  { label: content.services, href: "#services" },
+  { label: content.process, href: "#process" },
+  { label: content.why, href: "#why" },
+];
 ---
 
 <header
@@ -11,7 +31,7 @@ import { navLinks, siteConfig } from "@data/site";
   <Container>
     <nav class="flex items-center justify-between py-4">
       <!-- Logo -->
-      <a href="/" class="text-xl font-serif font-semibold text-snow">
+      <a href={homePath} class="text-xl font-serif font-semibold text-snow">
         axyntel<span class="text-electric">.</span>
       </a>
 
@@ -25,8 +45,14 @@ import { navLinks, siteConfig } from "@data/site";
             {link.label}
           </a>
         ))}
-        <Button href={siteConfig.bookingUrl} size="sm">
-          Book a Call
+        <a
+          href={altLocalePath}
+          class="text-sm text-steel transition-colors hover:text-snow"
+        >
+          {altLocaleLabel}
+        </a>
+        <Button href={bookingUrl} size="sm">
+          {content.cta}
         </Button>
       </div>
 
@@ -59,8 +85,14 @@ import { navLinks, siteConfig } from "@data/site";
             {link.label}
           </a>
         ))}
-        <Button href={siteConfig.bookingUrl} size="sm" class="mt-2 w-full text-center">
-          Book a Call
+        <a
+          href={altLocalePath}
+          class="mobile-link text-base text-steel transition-colors hover:text-snow"
+        >
+          {altLocaleLabel}
+        </a>
+        <Button href={bookingUrl} size="sm" class="mt-2 w-full text-center">
+          {content.cta}
         </Button>
       </div>
     </Container>

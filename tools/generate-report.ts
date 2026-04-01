@@ -24,14 +24,21 @@ const { values } = parseArgs({
   options: {
     input: { type: "string", short: "i" },
     output: { type: "string", short: "o" },
+    type: { type: "string", short: "t" },
   },
   strict: true,
 });
 
 if (!values.input) {
-  console.error("Usage: generate-report.ts --input <file.md> [--output <file.pdf>]");
+  console.error("Usage: generate-report.ts --input <file.md> [--output <file.pdf>] [--type <label>]");
+  console.error("");
+  console.error("  --type, -t   Document type shown on title page (default: Research Report)");
+  console.error("               Examples: Regulatory Analysis, Competitive Landscape, Market Brief,");
+  console.error("               Due Diligence Report, Policy Research, Battlecard");
   process.exit(1);
 }
+
+const documentType = values.type || "Research Report";
 
 const inputPath = path.resolve(values.input);
 const outputPath = values.output
@@ -138,26 +145,6 @@ const reportDate = new Date().toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
 });
-
-// ---------------------------------------------------------------------------
-// TOC HTML
-// ---------------------------------------------------------------------------
-
-function buildTocHtml(): string {
-  const items = tocEntries.map((entry) => {
-    if (entry.level === 1) {
-      return `<li class="toc-h1"><a href="#${entry.slug}">${entry.text}</a></li>`;
-    } else {
-      return `<li class="toc-h2"><a href="#${entry.slug}">${entry.text}</a></li>`;
-    }
-  });
-  return `
-    <div class="toc-page">
-      <h2 class="toc-title">Table of Contents</h2>
-      <ul class="toc-list">${items.join("\n")}</ul>
-    </div>
-  `;
-}
 
 // ---------------------------------------------------------------------------
 // Shared CSS
@@ -294,47 +281,246 @@ function escapeHtml(text: string): string {
     .replace(/"/g, "&quot;");
 }
 
+// Pre-build TOC list items
+const tocListHtml = tocEntries.map((entry) => {
+  if (entry.level === 1) {
+    return `<li class="toc-h1"><a href="#${entry.slug}">${entry.text}</a></li>`;
+  } else {
+    return `<li class="toc-h2"><a href="#${entry.slug}">${entry.text}</a></li>`;
+  }
+}).join("\n");
+
+const tocChapters = tocEntries.filter(e => e.level === 1).length;
+const tocSections = tocEntries.filter(e => e.level === 2).length;
+
 // Part 1: Title page + TOC (no header/footer)
 const frontHtml = `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8" />
 <style>
 ${sharedCss}
+
+/* ===== Title Page ===== */
 .title-page {
   width: 100%; height: 100vh;
   background: ${brand.midnight};
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; padding: 60px 80px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
 }
-.title-brand { font-size: 18pt; font-weight: 700; letter-spacing: 3px; color: ${brand.blue}; text-transform: lowercase; margin-bottom: 48px; }
-.title-accent { width: 64px; height: 3px; background: ${brand.blue}; margin: 0 auto 48px auto; border-radius: 2px; }
-.title-text { font-size: 28pt; font-weight: 700; color: ${brand.snow}; line-height: 1.25; max-width: 600px; margin-bottom: 48px; }
-.title-meta { color: ${brand.steel}; font-size: 10pt; line-height: 1.8; }
-.title-meta .date { color: ${brand.snow}; font-weight: 500; }
-.title-meta .conf { color: ${brand.steel}; font-style: italic; margin-top: 4px; }
 
+/* Subtle grid pattern overlay */
+.title-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* Gradient glow orb */
+.title-glow {
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.title-glow-bottom {
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Top bar with logo */
+.title-top {
+  position: relative;
+  z-index: 1;
+  padding: 56px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-brand {
+  font-size: 16pt;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: ${brand.snow};
+  text-transform: lowercase;
+}
+.title-brand span { color: ${brand.blue}; }
+
+.title-type {
+  font-size: 8pt;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: ${brand.blue};
+  border: 1px solid rgba(59,130,246,0.3);
+  padding: 6px 16px;
+  border-radius: 2px;
+}
+
+/* Main content area */
+.title-main {
+  position: relative;
+  z-index: 1;
+  padding: 0 64px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title-accent {
+  width: 48px;
+  height: 3px;
+  background: ${brand.blue};
+  margin-bottom: 32px;
+  border-radius: 2px;
+}
+
+.title-text {
+  font-size: 32pt;
+  font-weight: 700;
+  color: ${brand.snow};
+  line-height: 1.2;
+  max-width: 520px;
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
+}
+
+.title-subtitle {
+  font-size: 11pt;
+  color: ${brand.steel};
+  line-height: 1.6;
+  max-width: 440px;
+}
+
+/* Bottom bar with metadata */
+.title-bottom {
+  position: relative;
+  z-index: 1;
+  padding: 40px 64px 56px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.title-meta-left {
+  display: flex;
+  gap: 48px;
+}
+
+.title-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title-meta-label {
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: ${brand.steel};
+}
+
+.title-meta-value {
+  font-size: 9.5pt;
+  font-weight: 500;
+  color: ${brand.snow};
+}
+
+.title-conf {
+  font-size: 7.5pt;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(239,68,68,0.7);
+}
+
+/* ===== TOC Page ===== */
 .toc-page { padding: 60px 72px; }
-.toc-title { font-size: 20pt; color: ${brand.heading}; margin-bottom: 32px; padding-bottom: 12px; border-bottom: 2px solid ${brand.blue}; }
+.toc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid ${brand.blue};
+}
+.toc-title { font-size: 20pt; color: ${brand.heading}; font-weight: 700; }
+.toc-subtitle { font-size: 9pt; color: ${brand.steel}; }
 .toc-list { list-style: none; padding: 0; }
-.toc-list li { margin-bottom: 6px; }
+.toc-list li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+.toc-list li:last-child { border-bottom: none; }
 .toc-list li a { color: ${brand.body}; text-decoration: none; font-size: 10.5pt; }
-.toc-h1 a { font-weight: 600; font-size: 11pt; }
+.toc-h1 a { font-weight: 600; font-size: 11pt; color: ${brand.heading}; }
 .toc-h2 { padding-left: 24px; }
-.toc-h2 a { color: ${brand.steel}; }
+.toc-h2 a { color: ${brand.steel}; font-size: 10pt; }
 </style>
 </head>
 <body>
+
+<!-- Title Page -->
 <div class="title-page">
-  <div class="title-brand">axyntel.</div>
-  <div class="title-accent"></div>
-  <div class="title-text">${escapeHtml(reportTitle)}</div>
-  <div class="title-meta">
-    <p class="date">${reportDate}</p>
-    <p class="conf">Confidential</p>
+  <div class="title-glow"></div>
+  <div class="title-glow-bottom"></div>
+
+  <div class="title-top">
+    <div class="title-brand">axyntel<span>.</span></div>
+    <div class="title-type">${escapeHtml(documentType)}</div>
+  </div>
+
+  <div class="title-main">
+    <div class="title-accent"></div>
+    <div class="title-text">${escapeHtml(reportTitle)}</div>
+    <div class="title-subtitle">Structured research intelligence — every claim traced to its source.</div>
+  </div>
+
+  <div class="title-bottom">
+    <div class="title-meta-left">
+      <div class="title-meta-item">
+        <span class="title-meta-label">Date</span>
+        <span class="title-meta-value">${reportDate}</span>
+      </div>
+      <div class="title-meta-item">
+        <span class="title-meta-label">Prepared by</span>
+        <span class="title-meta-value">Axyntel Research</span>
+      </div>
+    </div>
+    <div class="title-conf">Confidential</div>
   </div>
 </div>
+
+<!-- TOC -->
 <div style="page-break-before: always;"></div>
-${buildTocHtml()}
+<div class="toc-page">
+  <div class="toc-header">
+    <h2 class="toc-title">Contents</h2>
+    <span class="toc-subtitle">${tocChapters} chapters &middot; ${tocSections} sections</span>
+  </div>
+  <ul class="toc-list">${tocListHtml}</ul>
+</div>
+
 </body>
 </html>`;
 

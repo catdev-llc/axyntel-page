@@ -1,21 +1,25 @@
 ---
 import "@/styles/global.css";
+import type { Locale } from "@data/i18n";
 
 interface Props {
   title?: string;
   description?: string;
+  locale?: Locale;
 }
 
 const {
   title = "Axyntel — Research Intelligence for B2B Decisions",
   description = "Structured, fully-cited intelligence reports for competitive strategy, regulatory compliance, and investment decisions. Delivered in days, not months.",
+  locale = "en",
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const siteOrigin = "https://axyntel.com";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,12 +30,18 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
+    <!-- hreflang alternate links -->
+    <link rel="alternate" hreflang="en" href={`${siteOrigin}/`} />
+    <link rel="alternate" hreflang="de" href={`${siteOrigin}/de/`} />
+    <link rel="alternate" hreflang="x-default" href={`${siteOrigin}/`} />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="Axyntel" />
+    <meta property="og:locale" content={locale === "de" ? "de_DE" : "en_US"} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary" />

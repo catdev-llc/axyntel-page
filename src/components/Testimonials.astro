@@ -1,6 +1,13 @@
 ---
 import Container from "@ui/Container.astro";
 import SectionHeading from "@ui/SectionHeading.astro";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["audience"];
+}
+
+const { content } = Astro.props;
 ---
 
 <section class="relative py-20 sm:py-28">
@@ -9,29 +16,13 @@ import SectionHeading from "@ui/SectionHeading.astro";
   <Container>
     <div class="reveal">
       <SectionHeading
-        label="Built For"
-        title="Teams that need research they can trust"
+        label={content.label}
+        title={content.headline}
       />
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {[
-        {
-          icon: "target",
-          title: "Product Marketing",
-          description: "Competitive battlecards and market landscapes for positioning, messaging, and go-to-market strategy.",
-        },
-        {
-          icon: "shield",
-          title: "GRC & Compliance Advisory",
-          description: "White-label regulatory research for consultancies serving clients under DORA, NIS2, AI Act, and ISO frameworks.",
-        },
-        {
-          icon: "briefcase",
-          title: "Private Equity & M&A",
-          description: "Deal research dossiers, thesis validation, and commercial due diligence for investment teams.",
-        },
-      ].map((item) => (
+      {content.items.map((item) => (
         <div class="reveal rounded-xl border border-slate-custom bg-navy p-6 sm:p-8 transition-all duration-300 hover:border-electric/30">
           <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-lg bg-electric/10">
             {item.icon === "target" && (

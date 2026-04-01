@@ -1,17 +1,23 @@
 ---
 import Container from "@ui/Container.astro";
-import { trustItems } from "@data/site";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["trust"];
+}
+
+const { content } = Astro.props;
 ---
 
 <section class="border-y border-slate-custom bg-navy/50 py-6">
   <Container>
     <div class="grid grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-4">
-      {trustItems.map((item) => (
+      {content.items.map((item) => (
         <div class="flex items-center gap-3 text-sm">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-electric" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
-          <span class="text-silver">{item.text}</span>
+          <span class="text-silver">{item}</span>
         </div>
       ))}
     </div>

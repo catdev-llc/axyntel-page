@@ -2,7 +2,14 @@
 import Container from "@ui/Container.astro";
 import Button from "@ui/Button.astro";
 import Badge from "@ui/Badge.astro";
-import { siteConfig } from "@data/site";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["hero"];
+  bookingUrl: string;
+}
+
+const { content, bookingUrl } = Astro.props;
 ---
 
 <section class="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
@@ -16,29 +23,27 @@ import { siteConfig } from "@data/site";
       <div class="reveal mb-8 flex justify-center">
         <Badge>
           <span class="inline-block h-1.5 w-1.5 rounded-full bg-electric animate-pulse"></span>
-          Research Intelligence for B2B Decisions
+          {content.badge}
         </Badge>
       </div>
 
       <h1 class="reveal font-serif text-4xl font-semibold leading-tight text-snow sm:text-5xl lg:text-6xl">
-        Research that moves at the speed of your decisions.
+        {content.headline}
       </h1>
 
       <p class="reveal mt-6 text-lg leading-relaxed text-steel sm:text-xl">
-        Structured, fully-cited intelligence reports for competitive strategy,
-        regulatory compliance, and investment decisions. Delivered in days, not
-        months.
+        {content.subheadline}
       </p>
 
       <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <Button href={siteConfig.bookingUrl} size="lg">
-          Book a Briefing Call
+        <Button href={bookingUrl} size="lg">
+          {content.primaryCta}
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </Button>
         <Button href="#services" variant="secondary" size="lg">
-          See What We Deliver
+          {content.secondaryCta}
         </Button>
       </div>
     </div>

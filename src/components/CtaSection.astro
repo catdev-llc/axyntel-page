@@ -1,7 +1,15 @@
 ---
 import Container from "@ui/Container.astro";
 import Button from "@ui/Button.astro";
-import { siteConfig } from "@data/site";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["cta"];
+  bookingUrl: string;
+  email: string;
+}
+
+const { content, bookingUrl, email } = Astro.props;
 ---
 
 <section class="relative py-20 sm:py-28">
@@ -13,33 +21,31 @@ import { siteConfig } from "@data/site";
   <Container>
     <div class="reveal mx-auto max-w-2xl text-center">
       <h2 class="font-serif text-3xl font-semibold text-snow sm:text-4xl lg:text-5xl leading-tight">
-        Have a decision to make?
+        {content.headline}
       </h2>
       <p class="mt-5 text-lg leading-relaxed text-steel">
-        Tell us what you're trying to figure out. We'll show you exactly what a
-        structured, sourced research output looks like for your specific
-        situation.
+        {content.description}
       </p>
 
       <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <Button href={siteConfig.bookingUrl} size="lg">
-          Book a 15-Minute Call
+        <Button href={bookingUrl} size="lg">
+          {content.primaryCta}
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </Button>
-        <Button href={`mailto:${siteConfig.email}`} variant="secondary" size="lg">
-          {siteConfig.email}
+        <Button href={`mailto:${email}`} variant="secondary" size="lg">
+          {content.secondaryCta}
         </Button>
       </div>
 
       <p class="mt-6 text-sm text-steel">
-        or write us directly at{" "}
+        {content.below}{" "}
         <a
-          href={`mailto:${siteConfig.email}`}
+          href={`mailto:${email}`}
           class="text-electric hover:text-electric-light transition-colors"
         >
-          {siteConfig.email}
+          {email}
         </a>
       </p>
     </div>

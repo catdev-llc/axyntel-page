@@ -2,21 +2,28 @@
 import Container from "@ui/Container.astro";
 import SectionHeading from "@ui/SectionHeading.astro";
 import Button from "@ui/Button.astro";
-import { services, siteConfig } from "@data/site";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["services"];
+  bookingUrl: string;
+}
+
+const { content, bookingUrl } = Astro.props;
 ---
 
 <section id="services" class="py-20 sm:py-28">
   <Container>
     <div class="reveal">
       <SectionHeading
-        label="What We Deliver"
-        title="Research that's ready when you are"
-        description="Tell us the decision you need to make. We deliver a structured, cited report you can hand to your board, your client, or your investment committee."
+        label={content.label}
+        title={content.headline}
+        description={content.description}
       />
     </div>
 
     <div class="mt-16 flex flex-col gap-8">
-      {services.map((service) => (
+      {content.items.map((service) => (
         <div class="reveal group rounded-xl border border-slate-custom bg-navy p-6 transition-all duration-300 hover:border-electric/30 sm:p-8 lg:p-10">
           <div class="flex flex-col gap-8 lg:flex-row lg:gap-12">
             <!-- Left column -->
@@ -50,7 +57,7 @@ import { services, siteConfig } from "@data/site";
             <!-- Right column: deliverables -->
             <div class="lg:w-1/2">
               <p class="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-steel">
-                Deliverables
+                {content.deliverablesLabel}
               </p>
               <ul class="space-y-3">
                 {service.deliverables.map((item) => (
@@ -63,8 +70,8 @@ import { services, siteConfig } from "@data/site";
                 ))}
               </ul>
               <div class="mt-6">
-                <Button href={siteConfig.bookingUrl} variant="secondary" size="sm">
-                  Discuss this service
+                <Button href={bookingUrl} variant="secondary" size="sm">
+                  {content.discussCta}
                 </Button>
               </div>
             </div>

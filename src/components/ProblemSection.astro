@@ -2,7 +2,13 @@
 import Container from "@ui/Container.astro";
 import SectionHeading from "@ui/SectionHeading.astro";
 import Card from "@ui/Card.astro";
-import { painPoints } from "@data/site";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["problem"];
+}
+
+const { content } = Astro.props;
 
 const icons = [
   // Clock
@@ -20,14 +26,14 @@ const icons = [
   <Container>
     <div class="reveal">
       <SectionHeading
-        label="The Problem"
-        title="Good research takes too long. Bad research costs more."
-        description="Your team needs intelligence to act — but the options are all wrong."
+        label={content.label}
+        title={content.headline}
+        description={content.description}
       />
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2">
-      {painPoints.map((point, i) => (
+      {content.items.map((point, i) => (
         <Card class="reveal group hover:border-danger/30 transition-colors duration-300">
           <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-danger/10 text-danger">
             <Fragment set:html={icons[i]} />

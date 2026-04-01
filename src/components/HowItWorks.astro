@@ -1,7 +1,14 @@
 ---
 import Container from "@ui/Container.astro";
 import SectionHeading from "@ui/SectionHeading.astro";
-import { steps } from "@data/site";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["process"];
+}
+
+const { content } = Astro.props;
+const { steps } = content;
 ---
 
 <section id="process" class="relative py-20 sm:py-28">
@@ -11,8 +18,8 @@ import { steps } from "@data/site";
   <Container>
     <div class="reveal">
       <SectionHeading
-        label="How It Works"
-        title="From brief to boardroom-ready report"
+        label={content.label}
+        title={content.headline}
       />
     </div>
 

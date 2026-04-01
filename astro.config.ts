@@ -11,4 +11,9 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   compressHTML: true,
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "de"],
+    routing: "manual",
+  },
 });

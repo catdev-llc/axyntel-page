@@ -1,16 +1,23 @@
 ---
 import Container from "@ui/Container.astro";
 import SectionHeading from "@ui/SectionHeading.astro";
-import { comparisonRows } from "@data/site";
+import type { Translations } from "@data/i18n";
+
+interface Props {
+  content: Translations["compare"];
+}
+
+const { content } = Astro.props;
+const { rows } = content;
 ---
 
 <section id="why" class="py-20 sm:py-28">
   <Container>
     <div class="reveal">
       <SectionHeading
-        label="Why Axyntel"
-        title="Consulting depth. Startup speed."
-        description="You shouldn't have to choose between thorough and fast."
+        label={content.label}
+        title={content.headline}
+        description={content.description}
       />
     </div>
 
@@ -20,21 +27,21 @@ import { comparisonRows } from "@data/site";
         <thead>
           <tr class="border-b border-slate-custom bg-navy">
             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-steel">
-              Feature
+              {content.featureCol}
             </th>
             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-steel">
-              Traditional Approach
+              {content.traditional}
             </th>
             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-electric">
-              Axyntel
+              {content.axyntelCol}
             </th>
           </tr>
         </thead>
         <tbody>
-          {comparisonRows.map((row, i) => (
+          {rows.map((row, i) => (
             <tr class:list={[
               "border-b border-slate-custom/50 transition-colors hover:bg-navy/50",
-              i === comparisonRows.length - 1 && "border-b-0",
+              i === rows.length - 1 && "border-b-0",
             ]}>
               <td class="px-6 py-4 text-sm font-medium text-snow">{row.feature}</td>
               <td class="px-6 py-4 text-sm text-steel">
@@ -61,7 +68,7 @@ import { comparisonRows } from "@data/site";
 
     <!-- Mobile cards -->
     <div class="reveal mt-14 flex flex-col gap-4 md:hidden">
-      {comparisonRows.map((row) => (
+      {rows.map((row) => (
         <div class="rounded-xl border border-slate-custom bg-navy p-5">
           <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-steel">
             {row.feature}

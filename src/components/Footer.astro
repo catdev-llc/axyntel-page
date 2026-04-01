@@ -1,6 +1,17 @@
 ---
 import Container from "@ui/Container.astro";
-import { siteConfig } from "@data/site";
+import type { Translations, Locale } from "@data/i18n";
+import { getLocalePath } from "@data/i18n";
+
+interface Props {
+  content: Translations["footer"];
+  locale: Locale;
+  email: string;
+  linkedin: string;
+}
+
+const { content, locale, email, linkedin } = Astro.props;
+const homePath = getLocalePath(locale);
 ---
 
 <footer class="border-t border-slate-custom py-10">
@@ -8,29 +19,29 @@ import { siteConfig } from "@data/site";
     <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
       <!-- Logo + copyright -->
       <div class="flex items-center gap-6">
-        <a href="/" class="font-serif text-lg font-semibold text-snow">
+        <a href={homePath} class="font-serif text-lg font-semibold text-snow">
           axyntel<span class="text-electric">.</span>
         </a>
         <span class="text-sm text-steel">
-          &copy; 2026 Axyntel. All rights reserved.
+          {content.copyright}
         </span>
       </div>
 
       <!-- Links -->
       <div class="flex items-center gap-6">
         <a
-          href={`mailto:${siteConfig.email}`}
+          href={`mailto:${email}`}
           class="text-sm text-steel transition-colors hover:text-snow"
         >
-          Contact
+          {content.contact}
         </a>
         <a
-          href={siteConfig.linkedin}
+          href={linkedin}
           target="_blank"
           rel="noopener noreferrer"
           class="text-sm text-steel transition-colors hover:text-snow"
         >
-          LinkedIn
+          {content.linkedin}
         </a>
       </div>
     </div>
